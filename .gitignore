@@ -1,0 +1,8 @@
+*
+!.gitignore
+!AGENTS.md
+!README.md
+!.agents/
+!.agents/**
+!docs/
+!docs/**
