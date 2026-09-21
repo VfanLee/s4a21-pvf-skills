@@ -130,7 +130,7 @@ GM/tool shop indexes cannot prove category tabs or tabless shops. Verify categor
 1. `npc.lst` → `.npc` → `[role]` shop entry → shop ID
 2. `itemshop.lst` → `.shp`
 3. Check `[NPC]`, `[type]`, `[message]`, `[sell info]` shape
-4. Collect every positive item ID; resolve each registry; read `[name]`, `[price]`, `[value]`, `[cash]`, `[need material]`, `[medal]`, expiry
+4. Collect every positive item ID; resolve each registry; read `[name]`, `[price]`, `[value]`, `[need material]`, and expiry. For CERA or medal sales, resolve the actual sale system before assigning a price field.
 5. List secret shop, daily rotation, expert job, and log-only entries separately; they are not normal sale facts
 
 ## Write and verify
@@ -140,6 +140,7 @@ GM/tool shop indexes cannot prove category tabs or tabless shops. Verify categor
 | List / unlist / retab | `.shp` `[item list]` / `[tab]` |
 | Gold buy price | item `[price]` (plain stackables fall back to `[value]`) |
 | Material exchange | item `[need material]`; resolve material IDs in stackable |
-| CERA / medals | item `[cash]` / `[medal]`; do not generalize to every system |
+| CERA shop | `etc/cerashop.etc` product row; item `[cash]` does not set the current server's CERA price |
+| Medals / other currencies | Trace the target client's and server's handler first; do not infer a price path from `[medal]` alone |
 
 In-game: find the NPC → open shop → check tabs / job categories / order → check price → buy or exchange → check Chinese text. If the tool index disagrees, trust the client.

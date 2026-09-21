@@ -16,13 +16,13 @@ When you learn, correct, or add a PVF fact in this file or in `.agents/skills/`,
 
 | Artifact | Role |
 | --- | --- |
-| `Script.pvf` | Packed archive. Never edit as text. |
-| Unpacked script tree | Editable `.lst` / `.npc` / `.shp` / `.stk` / `.equ` / … |
-| Original / baseline PVF | Anchor only. Never overwrite. |
+| `Script.pvf` | Packed archive. Never edit as text; rewrite it only through a PVF-aware reader/writer and with explicit authorization. |
+| Unpacked script tree | When supplied, editable `.lst` / `.npc` / `.shp` / `.stk` / `.equ` / … |
+| User-designated original / baseline PVF | Preserve as the comparison anchor. Do not assume a file is a baseline from its name alone. |
 
-Confirm whether the user is editing an **unpacked script directory** or only querying a packed archive. Do not invent paths if the tree is not unpacked.
+Confirm the actual target: an unpacked script directory, a packed PVF to query, or a packed PVF the user has authorized for rewrite. For a packed write, use a PVF-aware reader/writer, save to a temporary file, reopen it for validation, then atomically replace only the authorized target. Do not invent an unpacked path when none exists.
 
-Client and server must load the **same** packed PVF after changes. Server caches item metadata; restart or reload after deploy.
+Client and server must load the **same** packed PVF after changes. The server keeps process-level metadata caches; restart is the verified way to clear them. Use a reload only when that deployment has a separately verified reload mechanism.
 
 ## `.lst` registries
 
@@ -68,8 +68,8 @@ Example: 卡妮娜 NPC ID `3`, shop ID `84`, file `itemshop/84_Kanna.shp`. `[NPC
 ## Layering
 
 - `.shp` lists items only (`[item list]`).
-- Buy price, sell/recycle, bind, effects, and expiry live on the item `.stk` / `.equ`.
-- A21 shops use `[sell info]` → `[tab]` → `[item list]`, optionally `[use category]` / `[category entry]`.
+- NPC gold price, sell/recycle, bind, effects, and expiry live on the item `.stk` / `.equ`; CERA-shop price and page placement live in `etc/cerashop.etc`.
+- A common A21 shop shape is `[sell info]` → `[tab]` → `[item list]`, optionally `[use category]` / `[category entry]`. Tabless, category-only, and daily-rotation shops also exist; preserve the target shape.
 - Do not apply other-version shop syntax (`[sell item]`, `[tab name]`) to this PVF.
 
 ## Runtime meaning

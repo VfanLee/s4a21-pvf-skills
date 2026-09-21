@@ -33,7 +33,8 @@ Skills, dungeons, monsters, NUT, drops: resolve the matching `.lst` and read the
 - Keep existing tags, backticks, whitespace, numeric order, and paired `[/...]`. Do not paste skill examples as complete files.
 - `.shp` lists items only. Price, bind, effect, expiry: item file.
 - `[explain]` is not the effect. Script.pvf resource paths do not prove client assets exist.
-- After writes, read the files back. Behavior claims must say how to test in-game. Client and server load the **same** new PVF; restart/reload to clear item-metadata cache.
+- Packed PVF writes require a PVF-aware reader/writer: save a temporary archive, reopen it for validation, then atomically replace only the authorized target. Never edit the archive as text.
+- After writes, read the files back. Behavior claims must say how to test in-game. Client and server load the **same** new PVF; restart the server to clear process-level metadata caches. Use reload only when that deployment's reload path is separately verified.
 - When you learn, correct, or add a PVF fact in skills or `AGENTS.md`, update the matching Chinese page under [`docs/`](../../docs/README.md) in the same change. Do not load `docs/` as edit instructions.
 
 ## Workflow

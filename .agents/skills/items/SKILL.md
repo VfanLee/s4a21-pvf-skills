@@ -53,11 +53,11 @@ If the tag already exists, change the value; do not add a second copy.
 
 Examples: `3047` 林纳斯火炉券 `price=10000` `value=10` → buy 10000, sell 2. `1006` 加速药剂 `2000` / `200` → buy 2000, sell 40. `3037` 无色小晶块 `price=100` only → buy 100, sell 20.
 
-`[need material]` is **material ID, count** pairs. Do not confuse with the shop item's own ID. A21 samples close `[/need material]`; if a file has no closer, follow neighbors — do not mix styles.
+For the current server's NPC exchange path, `[need material]` is one effective **material ID, count** pair: it reads only the first two values. Do not add further pairs expecting them to be charged. Do not confuse the pair with the shop item's own ID. A21 samples close `[/need material]`; if a file has no closer, follow neighbors — do not mix styles.
 
 Equipment recycle uses the server equipment rate, **not** `value ÷ 5`, with a minimum. Equipment buy still prefers `[price]`, else `[value]`; with valid `[need material]` use `price + add price`.
 
-`[cash]` = CERA. `[medal]` is often equipment medal price. UI price ≠ a successful server debit.
+`[cash]` and `[medal]` are item metadata, not the current server's generic CERA or medal price setters. For CERA-shop price and page placement, resolve `etc/cerashop.etc`; for medals or another currency, trace the target handler before editing any field.
 
 ## Expiry
 
@@ -122,13 +122,23 @@ Minimal fragment (copy remaining fields from a neighbor; not a complete file):
 
 Opening should consume the source item and grant the list. Icons may reuse existing art.
 
+### Cash-shop package tables
+
+Cash-shop placement and CERA price are controlled by `etc/cerashop.etc`, not by an item's `[cash]` field. The current client maps `[regular package]` to its daily-package page, `[package]` to its main package page, and has character-premium entries on the limited/service UI. Treat page mapping as client-specific: inspect the current client and the existing section before editing, and preserve every non-target row.
+
+When moving a product between pages, remove its source row and add exactly one destination row. Check both sections afterwards so it cannot be sold twice. This client can display rows in the reverse of their PVF storage order, so verify the actual page order after packing rather than relying on the row order alone.
+
+An individual timed contract needs a product row in the matching CERA section, its `.stk` definition, and a matching `etc/premiumlist_new.etc` item-to-service mapping. Register each new `.stk` ID in `stackable/stackable.lst`.
+
+An all-service or multi-token contract is a separate path: its `[cera package]` must grant the intended tokens, and every token needs its own service mapping. The server also has a special Devil Contract catalog for all-service packages sourced from `[charac premium package]`; do not assume moving that product row to another section preserves the special path. Trace the purchase flow and verify the activated premium state in-game.
+
 Level-up tickets (e.g. `10006124`): server grants +1 level per use; that ticket's stack limit is 10.
 
 ### Personal vault max ticket
 
 Character vault in Seria's room, not account vault. A21 starts at 8 slots, max 200. Existing ID `10098633` (`cash/safe_upgradekit12.stk`) already expands to 200.
 
-For a new ID: copy that file and **keep the filename `safe_upgradekit12.stk`** (server keys the 12th tier / 200 slots off the name). Change name/text only. At 200 slots it is not consumed. Does not change inventory, avatar slots, or account vault.
+For a new ID that should reliably target 200 slots, use a distinct path whose basename remains `safe_upgradekit12.stk`; the server recognizes that basename as tier 12. A non-matching filename can fall back to parsing a supported capacity from the item's Chinese text, but that is less explicit and must be tested in-game. At 200 slots the ticket is not consumed. It does not change inventory, avatar slots, or account vault.
 
 ## Verify
 
