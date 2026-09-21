@@ -4,7 +4,7 @@ description: >-
   Edit A21 NPC shops in itemshop/*.shp: tabs, item lists, job categories,
   listing, new shops. Use when the PVF task touches NPC shop, itemshop, .shp,
   listing, tabs, [tab], [item list], or [use category]. Price lives on the item
-  file. Read repo AGENTS.md and skills/SKILL.md first.
+  file. Read repo AGENTS.md first.
 ---
 
 # A21 NPC shops
