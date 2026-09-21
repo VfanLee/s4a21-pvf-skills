@@ -2,7 +2,7 @@
 
 This repo is an agent skill pack for **86JP S4A21** PVF. It is not the unpacked script tree.
 
-Read this file for structure and ID relationships. For how to edit, read [`.agents/skills/SKILL.md`](.agents/skills/SKILL.md).
+This file is the project map: structure, ID relationships, hard rules, and which scenario skill to load. Scenario how-to lives in `.agents/skills/<name>/SKILL.md` — there is no hub `skills/SKILL.md`.
 
 Reply to the user in Simplified Chinese.
 
@@ -78,6 +78,43 @@ Interpret buy/sell price, expiry, and package grant using `ServerS4A21/` (`PvfLi
 
 Icon / resource paths in Script.pvf do not prove the client NPK exists.
 
-## Next
+## Scenario skills
 
-Edit only after reading [`.agents/skills/SKILL.md`](.agents/skills/SKILL.md). Load `npc-shop/` or `items/` when the task needs them.
+Load only the skill the task needs. Do not load every domain file at once.
+
+| Task | Read |
+| --- | --- |
+| Shop tabs, listing, categories, `.shp` | [`.agents/skills/npc-shop/SKILL.md`](.agents/skills/npc-shop/SKILL.md) |
+| Materials, potions, price, expiry, packages, tickets, `.stk`/`.equ` | [`.agents/skills/items/SKILL.md`](.agents/skills/items/SKILL.md) |
+
+Shop + item in one change: edit `.stk`/`.equ` first (price, expiry, effect), then write the ID into `.shp` `[item list]`.
+
+Skills, dungeons, monsters, NUT, drops: resolve the matching `.lst` and read the source. No extra skill file; still follow the hard rules below.
+
+## Hard rules
+
+- Default read-only. Without explicit write permission: do not write PVF, do not edit client ImagePacks2/NPK, do not overwrite the baseline pack.
+- A numeric ID is not a fact until resolved through the correct `.lst`.
+- New items need a free ID, an `.lst` row, and a definition file. Renames do not allocate IDs.
+- New blocks / new files: copy 2–3 same-folder, same-extension, same-purpose neighbors. Do not invent tag layout from the tag name.
+- Keep existing tags, backticks, whitespace, numeric order, and paired `[/...]`. Do not paste examples as complete files.
+- `.shp` lists items only. Price, bind, effect, expiry: item file.
+- `[explain]` is not the effect. Script.pvf resource paths do not prove client assets exist.
+- After writes, read the files back. Behavior claims must say how to test in-game. Client and server load the **same** new PVF; restart/reload to clear item-metadata cache.
+
+## Workflow
+
+```text
+read-only close → (after permission) minimal edit → read-back → pack matching client/server PVF → in-game check
+```
+
+1. Confirm the system (NPC / item / shop / other) and whether writes are allowed.
+2. Resolve name or ID through the matching `.lst`; read the target file. Do not guess from filenames.
+3. List paths, fields, old values, new values, and dependents (shops, recipes, quests, packages).
+4. Edit only after permission; only planned fields.
+5. Read back edited files and related `.lst`.
+6. Report: what changed, what did not, pack/load notes, how to verify in-game, whether old item instances refresh.
+
+## Replies
+
+Lead with: can it be done, which files, main risks, next step. Attach IDs, paths, and raw tags when needed.
