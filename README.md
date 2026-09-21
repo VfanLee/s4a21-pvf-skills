@@ -2,6 +2,7 @@
 
 Agent skill pack for **86JP S4A21** PVF. Not the unpacked script tree.
 
-- Structure, rules, which skill to load (agent): [`AGENTS.md`](AGENTS.md)
-- Scenario skills (agent): [`.agents/skills/npc-shop/`](.agents/skills/npc-shop/SKILL.md), [`.agents/skills/items/`](.agents/skills/items/SKILL.md)
+- Structure and ID relationships (agent): [`AGENTS.md`](AGENTS.md)
+- General edit workflow (agent): [`.agents/skills/SKILL.md`](.agents/skills/SKILL.md)
+- Scenario skills (agent): [NPC shops](.agents/skills/npc-shop/SKILL.md), [items and packages](.agents/skills/items/SKILL.md)
 - Chinese notes (maintainer): [`docs/`](docs/README.md)

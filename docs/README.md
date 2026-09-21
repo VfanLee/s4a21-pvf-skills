@@ -8,7 +8,8 @@
 
 | 想了解 | 打开 |
 | --- | --- |
-| PVF 结构、硬规则、改文件流程 | [structure.md](structure.md) |
+| PVF 结构与 ID 关系 | [structure.md](structure.md) |
+| 硬规则与通用修改流程 | [skills/README.md](skills/README.md) |
 | NPC 商店（`.shp`） | [skills/npc-shop.md](skills/npc-shop.md) |
 | 材料、药剂、价格、礼包（`.stk` / `.equ`） | [skills/items.md](skills/items.md) |
 
@@ -17,6 +18,7 @@
 | 你读（中文） | 模型读（英文） |
 | --- | --- |
 | [structure.md](structure.md) | [`AGENTS.md`](../AGENTS.md) |
+| [skills/README.md](skills/README.md) | [`.agents/skills/SKILL.md`](../.agents/skills/SKILL.md) |
 | [skills/npc-shop.md](skills/npc-shop.md) | [`.agents/skills/npc-shop/SKILL.md`](../.agents/skills/npc-shop/SKILL.md) |
 | [skills/items.md](skills/items.md) | [`.agents/skills/items/SKILL.md`](../.agents/skills/items/SKILL.md) |
 
